@@ -1,0 +1,158 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SWIFT login</title>
+
+    <!-- build:css styles/myswift.min.css -->
+    <link rel="stylesheet" type="text/css" href="styles/swift-login1.css" />
+    <!-- endbuild -->
+
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" type="text/css" href="styles/swift-login-IE8.min.css" />
+    <![endif]-->
+    
+	<script type="text/javascript" src="loginUtilsV1.js"></script>
+	<script type='text/javascript' src="ajax.js"></script>
+    <script type='text/javascript'>
+      if (top.location != location) 
+      {
+        top.location.href = document.location.href ;
+      }
+
+	  
+	  function validateForm(event) {
+		var filled = document.getElementById('userid').value && document.getElementById('userid').value.trim().length > 0 && document.getElementById('password').value && document.getElementById('password').value.trim().length > 0;
+		
+		if(!filled){
+			event.returnValue=false;
+			event.preventDefault();
+			
+			document.getElementById('sw-signin-error-1').style.display = 'block';
+			document.getElementById('sw-formgroup-email').className += ' has-error text-danger';
+			document.getElementById('sw-formgroup-pass').className += ' has-error text-danger';
+		}
+		
+		return filled;
+	  }
+	  
+	  function trimUserName() {
+		document.getElementById('userid').value = document.getElementById('userid').value.trim();
+	  }
+    </script>
+</head>
+
+<body>
+
+	
+    <div class="navbar navbar-tools navbar-inverse navbar-static-top hlp-margin-b-n">
+        <div class="container">
+            <div class="navbar-header">
+				<a class="navbar-brand" href="#"><span class="visible-xs">Sign in</span></a>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="main-content">
+
+
+        <div class="container">
+            <div class="clearfix">
+                
+                <h2 class="hlp-margin-t-l pull-left hidden-xs" id="sw-signin-title">
+                   Sign In with Resideo.mougins.swift account.
+				</h2>
+            </div>
+            
+            
+            <div class="well well-lg well-login">
+                <div class="row">
+                        <div><!--messageListProfilePlaceHolder--></div>
+						<div class="form-group" id="sw-formgroup-email">
+                            <label for="exampleInputEmail1">Username</label>
+                            <input class="form-control" name="userid" autocomplete="on" id="userid" placeholder="your username" type="email" tabindex="1" onchange="trimUserName()" useridPlaceHolder>
+                        </div>
+                        <div class="form-group" id="sw-formgroup-pass">
+                            <label for="exampleInputPassword1">Password</label>
+                            <input class="form-control" name="password" id="password" placeholder="your password" type="password" tabindex="2" passwordPlaceHolder>
+						</div>
+						<div class="form-group">
+							<label><!--labelListProfilePlaceHolder--></label>
+							<span id="bicListProfile"><!--bicListProfilePlaceHolder--></span>
+						</div>
+						<a href="login.html">Sign In</a>
+						
+                
+                    
+
+                    
+				</div>
+					</div>
+
+
+        </div>
+
+    </div>
+    
+    
+    
+
+
+
+
+        </div>
+        <!-- END Container -->
+    </div>
+    <!-- END container-fluid -->
+    
+    
+    
+    <script language="JavaScript">
+        
+        (function(){
+            if(window.location.href.indexOf('www2admin') != -1){
+                document.getElementById('sw-signin-title').innerHTML = 'SWIFT internal user log in';
+            }
+            function myTrim(x) {
+                return x.replace(/^\s+|\s+$/gm,'');
+            }
+            // first, kill reginfo cookie
+            document.cookie = "CK_SDC_REG_INFO=;domain=.swift.com;path=/";
+
+            var urlmessage = 'dudu';
+            var query = document.location.search.substring(1);
+            var pairs = query.split('&');
+            for (var i=0; i < pairs.length; i++)
+            {
+                var pair = myTrim(pairs[i]);
+                if( pair.substring(0,8) == 'message=' ) urlmessage = myTrim(unescape(pair.substring(pair.indexOf('=')+1)));
+            }
+
+            switch (urlmessage){
+                case 'Invalid user name or password':
+                    document.getElementById('sw-signin-error-1').style.display = 'block';
+                    document.getElementById('sw-formgroup-email').className += ' has-error text-danger';
+                    document.getElementById('sw-formgroup-pass').className += ' has-error text-danger';
+                    break;
+                case 'You are not allowed to access this section':
+                    document.getElementById('sw-signin-error-2').style.display = 'block';
+                    break;
+                case 'You are registered for multiple BICs. Please click on "Multi-profile?" to enter the BIC for which you want to login':
+                    document.getElementById('sw-signin-error-3').style.display = 'block';
+                    break;
+            }
+            
+            document.loginform.userid.focus();
+            setAcceptCookieVisibility();
+        })();
+        // -->
+    </script>
+    
+</body>
+
+</html>
